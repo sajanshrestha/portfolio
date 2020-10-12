@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/constants/constants.dart';
+import 'package:portfolio/widgets/navbar.dart';
+import 'package:portfolio/widgets/subtitle_text.dart';
+import 'package:portfolio/widgets/title_text.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,101 +22,57 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Navbar(),
-            Expanded(
-              child: IntroView(),
-            ),
-          ],
+      body: Container(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Navbar(),
+              BodyView(),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class Navbar extends StatelessWidget {
+class BodyView extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            'Sajan Shrestha',
-            style: TextStyle(
-              fontSize: 28,
-            ),
-          ),
-        ),
-        Text(
-          'Mentorship',
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(width: 1, color: Colors.green[400]),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ContactForm()));
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Say Hello',
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  _BodyViewState createState() => _BodyViewState();
 }
 
-class IntroView extends StatelessWidget {
+class _BodyViewState extends State<BodyView> {
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'iOS and Flutter Engineer',
-          style: TextStyle(
-            fontSize: 38,
-          ),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        Text(
-          'I design and code beautifully simple things, and I love what I do.',
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.grey[600],
-          ),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-      ],
-    );
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 500), () {
+      setState(() {
+        _visible = true;
+      });
+    });
   }
-}
 
-class ContactForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-      child: Text(
-        'Contact form',
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TitleText(
+            title: 'iOS and Flutter Engineer',
+          ),
+          SizedBox(height: 10),
+          SubtitleText(
+            subtitle:
+                'I design and code beautifully simple things, and I love what I do.',
+            visible: _visible,
+          )
+        ],
       ),
-    ));
+    );
   }
+
+  bool _visible = false;
 }
